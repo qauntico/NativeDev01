@@ -9,31 +9,12 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import GoalItem from "./components/GoalItem";
-import GoalInput from "./components/GoalInput";
 
 export default function App() {
-  const [items, setItems] = useState([]);
-
-  function addGoals(goal) {
-    if (goal.trim() !== "") {
-      setItems((goals) => [...goals, goal]);
-    }
-  }
 
   return (
     <View style={styles.container}>
-      <GoalInput onAdd={addGoals}/>
-      <View style={styles.listGoals}>
-        <FlatList
-          data={items}
-          renderItem={(itemData) => {
-            return (
-              <GoalItem text={itemData.item}/>
-            );
-          }}
-        />
-      </View>
+      <Text>Hello sir..</Text>
     </View>
   );
 }
