@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
+import { AntDesign } from "@expo/vector-icons";
+
 function generateRandomBetween(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
 
@@ -17,23 +19,25 @@ function generateRandomBetween(min, max, exclude) {
 let minBoundary = 1;
 let maxBoundary = 100;
 
-export default function GameScreen({ userNumber,onGameOver }) {
+export default function GameScreen({ userNumber, onGameOver }) {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
-
   useEffect(() => {
-    if(currentGuess === userNumber){
-        onGameOver();
+    if (currentGuess === userNumber) {
+      onGameOver();
     }
-  },[currentGuess, userNumber, onGameOver])
+  }, [currentGuess, userNumber, onGameOver]);
   function nextGuessHandler(direction) {
     if (
       (direction === "lower") & (currentGuess < userNumber) ||
       (direction === "greater") & (currentGuess > userNumber)
     ) {
-        Alert.alert("Don't Lie", 'you know that this is wrong...', {text: 'sorry!', style: 'cancel'})
-        return;
+      Alert.alert("Don't Lie", "you know that this is wrong...", {
+        text: "sorry!",
+        style: "cancel",
+      });
+      return;
     }
     if (direction === "lower") {
       maxBoundary = currentGuess;
@@ -55,10 +59,10 @@ export default function GameScreen({ userNumber,onGameOver }) {
         <Text>Higher or Lower</Text>
         <View>
           <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
-            +
+            <AntDesign name="plus" size={24} color="white" />
           </PrimaryButton>
           <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
-            -
+            <AntDesign name="minus" size={24} color="white" />
           </PrimaryButton>
         </View>
       </View>
