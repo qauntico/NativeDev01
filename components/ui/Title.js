@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { Platform, StyleSheet, Text } from "react-native";
 
 
 
@@ -12,9 +12,11 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     color: 'white',
     textAlign: "center",
-    borderWidth: 2,
+    borderWidth: Platform.OS === 'android' ? 2 : 0,
     borderColor: 'white',
     padding: 12,
-    fontFamily: 'open-sans-bold'
+    fontFamily: 'open-sans-bold',
+    maxWidth: '80%',
+    width: 300,
   }
 });

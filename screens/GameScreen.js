@@ -1,4 +1,10 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import Title from "../components/ui/Title";
 import { useEffect, useState } from "react";
 import NumberContainer from "../components/game/NumberContainer";
@@ -22,6 +28,7 @@ let maxBoundary = 100;
 export default function GameScreen({ userNumber, onGameOver }) {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const { width, height } = useWindowDimensions();
 
   useEffect(() => {
     if (currentGuess === userNumber) {
@@ -51,9 +58,18 @@ export default function GameScreen({ userNumber, onGameOver }) {
     );
     setCurrentGuess(newRndNumber);
   }
+
+  let content = (
+    <>
+      <Title>Opponent's Guess</Title>
+    </>
+  );
+
+  if (width > 500) {
+  }
   return (
     <View style={styles.screen}>
-      <Title>Opponent's Guess</Title>
+      {content}
       <NumberContainer>{currentGuess}</NumberContainer>
       <View>
         <Text>Higher or Lower</Text>
