@@ -3,14 +3,15 @@
     "name": "ReatNativeTest1",
     "slug": "ReatNativeTest1",
     "version": "1.0.0",
-    "orientation": "default",
+    "orientation": "potrait",
     "icon": "./assets/icon.png",
+    "backgroundColor": "#24180f",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#24180f"
     },
     "ios": {
       "supportsTablet": true

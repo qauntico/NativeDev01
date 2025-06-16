@@ -1,61 +1,54 @@
+import { StyleSheet, Text, View } from "react-native";
+import CategoriesScreen from "./screens/categoryScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import { ImageBackground, SafeAreaView, StyleSheet } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import StartGameScreen from "./screens/StartGameScreen";
-import GameScreen from "./screens/GameScreen";
-import Colors from "./contants/color";
-import GameOverScreen from "./screens/GameOverScreen";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import MealDetail from "./screens/MealDetail";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import FavoriteScreens from "./screens/FavoriteScreens";
 
-export default function App() {
-  const [userNumber, setUserNumber] = useState();
-  const [gameIsOver, setGameIsOver] = useState(true);
+const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
-  const [fontsLoaded] = useFonts({
-    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans-bold-": require("./assets/fonts/OpenSans-Bold.ttf"),
-  });
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-  function pickedNumberHandler(pickedNumber) {
-    setUserNumber(pickedNumber);
-  }
-  function gameOverHandlerFunction() {
-    setGameIsOver(true);
-  }
-  let screen = <StartGameScreen onPickedNumber={pickedNumberHandler} />;
-  if (userNumber) {
-    screen = (
-      <GameScreen
-        userNumber={userNumber}
-        onGameOver={gameOverHandlerFunction}
-      />
-    );
-  }
-  if (gameIsOver && userNumber) {
-    screen = <GameOverScreen />;
-  }
-
+function DrawerNavigator() {
   return (
-    <>
-      <StatusBar style="light" />
-      <LinearGradient
-        colors={[Colors.primary700, Colors.accent500]}
-        style={styles.rootScreen}
-      >
-        <ImageBackground
-          source={require("./assets/images/background.png")}
-          resizeMode="cover"
-          style={styles.rootScreen}
-          imageStyle={styles.backgroundImage}
+    <Drawer.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#351401" },
+        headerTintColor: "white",
+        contentStyle: { backgroundColor: "#3f2f25" },
+      }}
+    >
+      <Drawer.Screen name="Categories" component={CategoriesScreen} />
+      <Drawer.Screen name="Favorite" component={FavoriteScreens} />
+    </Drawer.Navigator>
+  );
+}
+export default function App() {
+  return (
+    <View style={styles.rootScreen}>
+      <StatusBar />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: "#351401" },
+            headerTintColor: "white",
+            contentStyle: { backgroundColor: "#3f2f25" },
+          }}
         >
-          <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
-        </ImageBackground>
-      </LinearGradient>
-    </>
+          <Stack.Screen
+            name="MealsCategories"
+            component={DrawerNavigator}
+            options={{
+              headerShown: false, //can be used to remove the parent header
+            }}
+          />
+          <Stack.Screen name="MealsOverview" component={MealsOverviewScreen} />
+          <Stack.Screen name="MealDetail" component={MealDetail} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 }
 
