@@ -1,17 +1,25 @@
 import { useRoute } from "@react-navigation/native";
 import { Button, Image, Text, View } from "react-native";
 import { MEALS } from "../data/dummy-data";
-import { useLayoutEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 import IconButton from "../components/IconButton";
+import { FavoriteContext } from "../store/context/favorite-context";
 
 export default function MealDetail({ navigation }) {
   const route = useRoute();
   const mealId = route.params.mealId;
+  const favoriteMealsCtx = useContext(FavoriteContext);
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
+  const mealsFavorite = favoriteMealsCtx.ids.includes(mealId)
+
   function headerButtonPressHandler() {
-    console.log("yes");
+    if(mealsFavorite){
+        favoriteMealsCtx.removeFavorite(mealId);
+    }else{
+        favoriteMealsCtx.addFavorite(mealId)
+    }
   }
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -19,7 +27,7 @@ export default function MealDetail({ navigation }) {
         return (
           <IconButton
             onPress={headerButtonPressHandler}
-            name="heart"
+            name={mealsFavorite ? "heart" : "heart-outline"}
             color="white"
           />
         );
