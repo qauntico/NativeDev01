@@ -9,7 +9,9 @@ import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 export default function ManageExpense({ route, navigation }) {
   const editeExpenseId = route.params?.expenseId;
   const isEditing = !!editeExpenseId;
-   const expensesCtx = useContext(ExpensesContext);
+  const expensesCtx = useContext(ExpensesContext);
+
+  const selectedExpense = expensesCtx.expenses.find((expense) => expense.id === editeExpenseId)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -26,26 +28,24 @@ export default function ManageExpense({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirm() {
-    if(isEditing){
-        expensesCtx.updateExpense();
-    }else{
-        expensesCtx.addExpense();
+  function confirm(expenseData) {
+    if (isEditing) {
+      expensesCtx.updateExpense(editeExpenseId, editeExpenseId);
+    } else {
+      expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
-        <ExpenseForm />
-      <View style={styles.buttonContainer}>
-        <Button mode="flat" onPress={cancelHander} style={styles.button}>
-          Cancel
-        </Button>
-        <Button onPress={confirm} style={styles.button}>
-          {isEditing ? "Update" : "Add"}
-        </Button>
-      </View>
+      <ExpenseForm
+        onCancel={cancelHander}
+        isEditing={isEditing}
+        onSubmit={confirm}
+        defaultValues={selectedExpense}
+      />
+
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
