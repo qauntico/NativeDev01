@@ -1,15 +1,21 @@
-import { useContext, useLayoutEffect } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import IconButton from "../UI/Iconbutton";
 import { GlobalStyles } from "../contants/styles";
 import Button from "../UI/Button";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { storeExpense, updateExpense, deleteExpense } from "../util/https";
+import LoadingOverlay from "../UI/LoadingOverlay";
+import ErrorOverlay from "../UI/ErrorOverlay";
 
 export default function ManageExpense({ route, navigation }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const editeExpenseId = route.params?.expenseId;
   const isEditing = !!editeExpenseId;
   const expensesCtx = useContext(ExpensesContext);
+
 
   const selectedExpense = expensesCtx.expenses.find((expense) => expense.id === editeExpenseId)
 
@@ -19,22 +25,44 @@ export default function ManageExpense({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  function deleteExpenseHandler() {
-    expensesCtx.deleteExpense(editeExpenseId);
-    navigation.goBack();
+  async function deleteExpenseHandler() {
+    setIsLoading(true); 
+    try { 
+      await deleteExpense(editeExpenseId);
+      expensesCtx.deleteExpense(editeExpenseId);
+      navigation.goBack();
+    } catch (error) {
+      setError("Could not delete expense - please try again later!");
+    }
+    setIsLoading(false);
   }
 
   function cancelHander() {
     navigation.goBack();
   }
 
-  function confirm(expenseData) {
+  async function confirm(expenseData) {
+    setIsLoading(true);
     if (isEditing) {
       expensesCtx.updateExpense(editeExpenseId, editeExpenseId);
+      await updateExpense(editeExpenseId, expenseData);
     } else {
-      expensesCtx.addExpense(expenseData);
+      const id = await storeExpense(expenseData);
+      expensesCtx.addExpense({ ...expenseData, id });
     }
     navigation.goBack();
+  }
+
+  function errorHandler() {
+    setError(null);
+  }
+
+  if (isLoading) {
+    return <LoadingOverlay />;
+  }
+
+  if (error && !isLoading) {
+    return <ErrorOverlay message={error} onConfirm={errorHandler} />;
   }
 
   return (

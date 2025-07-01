@@ -70,7 +70,7 @@ export default function ExpenseForm({
         textInputConfig={{
           keyboardType: "decimal-pad",
           onChangeText: inputChangeHandler.bind(this, "amount"),
-          value: inputValues.amount.value,
+          value: inputValues.amount.value
         }}
       />
       <Input
