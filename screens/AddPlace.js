@@ -1,9 +1,8 @@
 import { Text, View } from "react-native";
+import PlaceForm from "../components/places/PlaceForm";
 
 export default function AddPlace() {
   return (
-    <View>
-      <Text>Add Place Screen</Text>
-    </View>
+    <PlaceForm  />
   );
 }                               
