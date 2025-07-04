@@ -26,7 +26,8 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
     "react-native-stack": "^1.0.0-alpha11",
-    "expo-image-picker": "~16.1.4"
+    "expo-image-picker": "~16.1.4",
+    "expo-location": "~18.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
