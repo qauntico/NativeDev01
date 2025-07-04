@@ -48,21 +48,3 @@ async function verifyPermissions(){
   );
 }
 
-const styles = StyleSheet.create({
-  mapPreview: {
-    marginVertical: 8,
-    width: "100%",
-    height: 200,
-    marginVertical: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Colors.primary100,
-    borderRadius: 4,
-  },
-  action: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginVertical: 8,
-  },
-});
