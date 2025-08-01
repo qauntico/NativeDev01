@@ -9,6 +9,7 @@ import ExpensesContextProvider from "./store/expenses-context";
 import AllPlace from "./screens/AllPlace";
 import AddPlace from "./screens/AddPlace";
 import IconButton from "./UI/IconButton";
+import Map from "./screens/Map";
 
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +34,9 @@ export default function App() {
           })}/>
           <Stack.Screen name="AddPlace" component={AddPlace} options={{
             title: 'Add a New Place',
+          }} />
+          <Stack.Screen name="Map" component={Map} options={{
+            title: 'Loading Place Details',
           }} />
         </Stack.Navigator>
       </NavigationContainer>
